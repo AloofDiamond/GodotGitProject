@@ -1,15 +1,15 @@
 extends CharacterBody2D
 
-signal die
-
-const SPEED : float = 1000.0
+const SPEED : float = 2000.0
 const JUMP_VELOCITY : float = -40.0
-const FRICTION : Vector2 = Vector2(1.1,1.0)
+const FRICTION : Vector2 = Vector2(1.2,1.0)
 const UP_GRAVITY : Vector2 = Vector2(0,900)
 const DOWN_GRAVITY : Vector2 = Vector2(0,1400)
 const MAX_JUMP_FRAMES : int = 1000
 const DASH_COOLDOWN : int = 20
 const DASH_SPEED : float = 500
+
+
 
 var direction : int = 1
 var accumulated_velocity : Vector2 = Vector2.ZERO
