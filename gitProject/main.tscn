@@ -1,3 +1,11 @@
-[gd_scene format=3 uid="uid://cqgrhrqahq0fo"]
+[gd_scene load_steps=2 format=3 uid="uid://cqgrhrqahq0fo"]
+
+[ext_resource type="TileSet" uid="uid://cl3rpgce521dq" path="res://tileset.tres" id="1_ig7tw"]
 
 [node name="Main" type="Node2D"]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_set = ExtResource("1_ig7tw")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(4, 4)
