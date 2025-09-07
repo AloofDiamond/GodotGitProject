@@ -1,18 +1,27 @@
 extends CharacterBody2D
 
+signal die
 
-const SPEED : float = 5000.0
+const SPEED : float = 1000.0
 const JUMP_VELOCITY : float = -40.0
-const FRICTION : Vector2 = Vector2(1.75,1.0)
+const FRICTION : Vector2 = Vector2(1.1,1.0)
 const UP_GRAVITY : Vector2 = Vector2(0,900)
 const DOWN_GRAVITY : Vector2 = Vector2(0,1400)
 const MAX_JUMP_FRAMES : int = 1000
+const DASH_COOLDOWN : int = 20
+const DASH_SPEED : float = 500
 
+var direction : int = 1
 var accumulated_velocity : Vector2 = Vector2.ZERO
 var jumping : bool = false
 var jump_frames : int = 0
+var dashing_counter : int = -1
 
-@onready var animated = $Animated
+@onready var spawn_pos : Vector2 = get_node("../spawn").position
+@onready var animated = $animated
+
+func _ready() -> void:
+	position = spawn_pos
 
 func _physics_process(delta: float) -> void:
 	if is_on_floor():
@@ -34,8 +43,18 @@ func _physics_process(delta: float) -> void:
 		accumulated_velocity.y += JUMP_VELOCITY / max((jump_frames-3)/2,1)
 		jump_frames += 1
 	
-	var direction : float = Input.get_axis("LEFT", "RIGHT")
-	accumulated_velocity.x += direction * SPEED * delta
+	var input_direction : float = Input.get_axis("LEFT", "RIGHT")
+	accumulated_velocity.x += input_direction * SPEED * delta
+	
+	if dashing_counter >= 0:
+		dashing_counter -= 1
+	
+	if Input.is_action_just_pressed("DASH") and dashing_counter < 0:
+		dashing_counter = DASH_COOLDOWN
+		if input_direction == 0:
+			accumulated_velocity.x = direction*DASH_SPEED
+		else:
+			accumulated_velocity.x = input_direction*DASH_SPEED
 	
 	#Animation (replace with anim tree and player later)
 	if abs(accumulated_velocity.x) > .2:
@@ -47,12 +66,18 @@ func _physics_process(delta: float) -> void:
 		animated.play("Idle")
 	
 	if accumulated_velocity.x > 0:
-		animated.scale.x = 1
+		direction = 1
 	else:
-		animated.scale.x = -1
+		direction = -1
+		
+	animated.scale.x = direction
 	
 	animated.speed_scale = accumulated_velocity.x/50
 	
 	accumulated_velocity /= FRICTION
 	velocity = accumulated_velocity
 	move_and_slide()
+
+func died():
+	position = spawn_pos
+	return true

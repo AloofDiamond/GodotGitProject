@@ -16,7 +16,13 @@ config/features=PackedStringArray("4.4", "GL Compatibility")
 
 [display]
 
+window/size/mode=2
 window/stretch/mode="viewport"
+
+[global_group]
+
+death=""
+character=""
 
 [input]
 
