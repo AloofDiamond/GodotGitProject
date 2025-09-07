@@ -7,9 +7,23 @@ const UP_GRAVITY : Vector2 = Vector2(0,900)
 const DOWN_GRAVITY : Vector2 = Vector2(0,1400)
 const MAX_JUMP_FRAMES : int = 1000
 const DASH_COOLDOWN : int = 20
-const DASH_SPEED : float = 500
+var dash_frame : int = 0
 
+const DASH_ARRAY : Array[float] = [
+	150,
+	150,
+	150,
+	100,
+	100,
+	50,
+	50,
+	20,
+	20,
+	15
+]
 
+var dashing : bool = false
+var dash_direction : int = 0
 
 var direction : int = 1
 var accumulated_velocity : Vector2 = Vector2.ZERO
@@ -50,11 +64,17 @@ func _physics_process(delta: float) -> void:
 		dashing_counter -= 1
 	
 	if Input.is_action_just_pressed("DASH") and dashing_counter < 0:
+		dashing = true
 		dashing_counter = DASH_COOLDOWN
+		dash_frame = 0
 		if input_direction == 0:
-			accumulated_velocity.x = direction*DASH_SPEED
+			dash_direction = direction
 		else:
-			accumulated_velocity.x = input_direction*DASH_SPEED
+			dash_direction = input_direction
+	
+	if dashing and dash_frame < DASH_ARRAY.size()-1:
+		dash_frame += 1
+		accumulated_velocity.x += direction*DASH_ARRAY[dash_frame]
 	
 	#Animation (replace with anim tree and player later)
 	if abs(accumulated_velocity.x) > .2:
