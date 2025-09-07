@@ -1,11 +1,122 @@
-[gd_scene load_steps=2 format=3 uid="uid://cqgrhrqahq0fo"]
+[gd_scene load_steps=18 format=4 uid="uid://cqgrhrqahq0fo"]
 
 [ext_resource type="TileSet" uid="uid://cl3rpgce521dq" path="res://tileset.tres" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://cm0i5iqnb1l38" path="res://character.gd" id="2_1bvp3"]
+[ext_resource type="Texture2D" uid="uid://cyem40pplbmpq" path="res://Character/Roll_strip4.png" id="2_h2yge"]
+[ext_resource type="Texture2D" uid="uid://dsw4rbjcula82" path="res://Character/IdleAndWalk_strip5.png" id="3_1bvp3"]
+[ext_resource type="Texture2D" uid="uid://ll111uupl55n" path="res://Character/Jump.png" id="3_lquwl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lquwl"]
+size = Vector2(14, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7mycd"]
+atlas = ExtResource("3_lquwl")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_efxa6"]
+atlas = ExtResource("2_h2yge")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dg77c"]
+atlas = ExtResource("2_h2yge")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ycdy4"]
+atlas = ExtResource("2_h2yge")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w48qg"]
+atlas = ExtResource("2_h2yge")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vivmo"]
+atlas = ExtResource("3_1bvp3")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2cqfq"]
+atlas = ExtResource("3_1bvp3")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yaehf"]
+atlas = ExtResource("3_1bvp3")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_074og"]
+atlas = ExtResource("3_1bvp3")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cegan"]
+atlas = ExtResource("3_1bvp3")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_82xsv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7mycd")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_efxa6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dg77c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ycdy4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w48qg")
+}],
+"loop": true,
+"name": &"Roll",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vivmo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2cqfq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yaehf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_074og")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cegan")
+}],
+"loop": true,
+"name": &"Walk",
+"speed": 5.0
+}]
 
 [node name="Main" type="Node2D"]
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
+texture_filter = 1
+tile_map_data = PackedByteArray("AAD5/wAAAQAFAAQAAAABAAAAAQAGAAQAAAADAAAAAQAGAAQAAAAEAAAAAQAGAAQAAAAFAAAAAQAGAAQAAAAGAAAAAQAHAAQAAAD6/wAAAQAGAAQAAAD7/wAAAQAGAAQAAAD8/wAAAQAGAAQAAAD9/wAAAQAGAAQAAAD+/wAAAQAGAAQAAAD//wAAAQAGAAQAAAAAAAAAAQAGAAQAAAACAAAAAQAGAAQAAAD5/wEAAQAFAAUAAAAGAAEAAQAHAAUAAAD5/wIAAQAFAAUAAAAGAAIAAQAHAAUAAAD5/wMAAQAFAAUAAAAGAAMAAQAHAAUAAAAGAAQAAQAHAAUAAAD5/wQAAQAFAAUAAAD5/wUAAQAFAAUAAAAGAAUAAQAHAAUAAAD6/wEAAQAEAAoAAAD6/wIAAQAEAAQAAAD6/wMAAQADAAQAAAD6/wQAAQAGAAUAAAD6/wUAAQAEAAQAAAD7/wEAAQAGAAUAAAD7/wIAAQAGAAcAAAD7/wMAAQAEAAoAAAD7/wQAAQAGAAcAAAD7/wUAAQAGAAcAAAD8/wEAAQAGAAUAAAD8/wIAAQADAAQAAAD8/wMAAQAEAAQAAAD8/wQAAQAGAAUAAAD8/wUAAQAGAAUAAAD9/wEAAQAEAAQAAAD9/wIAAQAGAAUAAAD9/wMAAQAEAAoAAAD9/wQAAQAGAAcAAAD9/wUAAQAGAAcAAAD+/wEAAQAGAAUAAAD+/wIAAQAEAAQAAAD+/wMAAQAGAAUAAAD+/wQAAQAGAAUAAAD+/wUAAQAGAAcAAAD//wEAAQADAAQAAAD//wIAAQADAAQAAAD//wMAAQAEAAoAAAD//wQAAQADAAQAAAD//wUAAQAEAAQAAAAAAAEAAQAEAAQAAAAAAAIAAQAEAAQAAAAAAAMAAQAEAAQAAAAAAAQAAQAEAAoAAAAAAAUAAQAEAAQAAAABAAEAAQADAAQAAAABAAIAAQAEAAQAAAABAAMAAQADAAQAAAABAAQAAQAGAAUAAAABAAUAAQAGAAUAAAACAAEAAQAGAAUAAAACAAIAAQAGAAcAAAACAAMAAQAGAAcAAAACAAQAAQADAAQAAAACAAUAAQADAAQAAAADAAEAAQAEAAQAAAADAAIAAQAEAAQAAAADAAMAAQAGAAcAAAADAAQAAQAEAAoAAAADAAUAAQAGAAcAAAAEAAEAAQAEAAQAAAAEAAIAAQAGAAcAAAAEAAMAAQAEAAoAAAAEAAQAAQAGAAUAAAAEAAUAAQADAAQAAAAFAAEAAQAEAAoAAAAFAAIAAQADAAQAAAAFAAMAAQAEAAQAAAAFAAQAAQAEAAoAAAAFAAUAAQAGAAcAAAA=")
 tile_set = ExtResource("1_ig7tw")
+use_kinematic_bodies = true
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+position = Vector2(0, -13)
+script = ExtResource("2_1bvp3")
+
+[node name="Cam" type="Camera2D" parent="CharacterBody2D"]
 zoom = Vector2(4, 4)
+
+[node name="Shape" type="CollisionShape2D" parent="CharacterBody2D"]
+shape = SubResource("RectangleShape2D_lquwl")
+
+[node name="Animated" type="AnimatedSprite2D" parent="CharacterBody2D"]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_82xsv")
+animation = &"Idle"
+speed_scale = 2.0

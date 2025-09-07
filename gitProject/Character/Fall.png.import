@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://q1da67i5ljgs"
-path="res://.godot/imported/Gameboy Tileset.png-17b8dbbba7c09a76d5230fd43f135fa8.ctex"
+uid="uid://b1ywyppiblp8k"
+path="res://.godot/imported/Fall.png-97fd3be9a8441febf2e663cf1e07a7c3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Gameboy Tileset.png"
-dest_files=["res://.godot/imported/Gameboy Tileset.png-17b8dbbba7c09a76d5230fd43f135fa8.ctex"]
+source_file="res://Character/Fall.png"
+dest_files=["res://.godot/imported/Fall.png-97fd3be9a8441febf2e663cf1e07a7c3.ctex"]
 
 [params]
 
