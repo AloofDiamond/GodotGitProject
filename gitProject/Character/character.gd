@@ -37,6 +37,7 @@ func _physics_process(delta: float) -> void:
 	var direction : float = Input.get_axis("LEFT", "RIGHT")
 	accumulated_velocity.x += direction * SPEED * delta
 	
+	#Animation (replace with anim tree and player later)
 	if abs(accumulated_velocity.x) > .2:
 		if accumulated_velocity.x > 0:
 			animated.play("Walk")
