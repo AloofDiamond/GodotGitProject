@@ -4,35 +4,55 @@ const SPEED : float = 2000.0
 const JUMP_VELOCITY : float = -40.0
 const FRICTION : Vector2 = Vector2(1.2,1.0)
 const UP_GRAVITY : Vector2 = Vector2(0,900)
-const DOWN_GRAVITY : Vector2 = Vector2(0,1400)
-const MAX_JUMP_FRAMES : int = 1000
+const DOWN_GRAVITY : Vector2 = Vector2(0,1250)
+const MAX_JUMP_FRAMES : int = 200
 const DASH_COOLDOWN : int = 20
-var dash_frame : int = 0
 
 const DASH_ARRAY : Array[float] = [
 	150,
 	150,
-	150,
-	100,
+	140,
+	125,
 	100,
 	50,
-	50,
-	20,
+	35,
 	20,
 	15
 ]
 
+const JUMP_ARRAY : Array[float] = [
+	-10,
+	-30,
+	-50,
+	-50,
+	-50,
+	-50,
+	-50,
+	-30,
+	-20,
+	-15,
+	-15,
+	-15,
+	-15,
+	-10,
+	-10,
+	-10,
+	0
+]
+
+var dash_frame : int = 0
 var dashing : bool = false
 var dash_direction : int = 0
+var dashing_counter : int = -1
 
 var direction : int = 1
 var accumulated_velocity : Vector2 = Vector2.ZERO
 var jumping : bool = false
 var jump_frames : int = 0
-var dashing_counter : int = -1
+
 
 @onready var spawn_pos : Vector2 = get_node("../spawn").position
-@onready var animated = $animated
+@onready var animated : AnimatedSprite2D = $animated
 
 func _ready() -> void:
 	position = spawn_pos
@@ -48,14 +68,19 @@ func _physics_process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("JUMP") and is_on_floor():
 		jumping = true
-		jump_frames = 1
+		jump_frames = 0
 	
 	if not Input.is_action_pressed("JUMP"):
 		jumping = false
 	
 	if jumping and jump_frames < MAX_JUMP_FRAMES:
-		accumulated_velocity.y += JUMP_VELOCITY / max((jump_frames-3)/2,1)
+		var idx : int = jump_frames
+		if idx > JUMP_ARRAY.size()-1:
+			idx = JUMP_ARRAY.size()-1
+		accumulated_velocity.y += JUMP_ARRAY[idx]
 		jump_frames += 1
+	elif jumping:
+		jumping = false
 	
 	var input_direction : float = Input.get_axis("LEFT", "RIGHT")
 	accumulated_velocity.x += input_direction * SPEED * delta
