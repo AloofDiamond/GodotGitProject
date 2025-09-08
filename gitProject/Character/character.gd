@@ -6,7 +6,7 @@ const FRICTION : Vector2 = Vector2(1.2,1.0)
 const UP_GRAVITY : Vector2 = Vector2(0,900)
 const DOWN_GRAVITY : Vector2 = Vector2(0,1250)
 const MAX_JUMP_FRAMES : int = 200
-const DASH_COOLDOWN : int = 20
+const DASH_COOLDOWN : int = 24
 
 const DASH_ARRAY : Array[float] = [
 	150,
@@ -23,18 +23,18 @@ const DASH_ARRAY : Array[float] = [
 const JUMP_ARRAY : Array[float] = [
 	-10,
 	-30,
-	-50,
-	-50,
-	-50,
-	-50,
-	-50,
+	-40,
+	-40,
+	-38,
+	-36,
+	-34,
+	-32,
 	-30,
+	-28,
+	-26,
+	-25,
 	-20,
 	-15,
-	-15,
-	-15,
-	-15,
-	-10,
 	-10,
 	-10,
 	0
@@ -58,6 +58,15 @@ func _ready() -> void:
 	position = spawn_pos
 
 func _physics_process(delta: float) -> void:
+	if is_on_wall():
+		accumulated_velocity.x = 0
+	
+	if is_on_ceiling():
+		accumulated_velocity.y = 1
+		if jumping:
+			jumping = false
+			accumulated_velocity.y = -300
+	
 	if is_on_floor():
 		accumulated_velocity.y = 0
 	else:
@@ -122,6 +131,13 @@ func _physics_process(delta: float) -> void:
 	accumulated_velocity /= FRICTION
 	velocity = accumulated_velocity
 	move_and_slide()
+
+func getValue(fac:float, arr:Array[float]) -> float:
+	var first_val : float = arr[int(fac)]
+	var second_val : float = arr[int(fac)+1]
+	var factor : float = fac - int(fac)
+	
+	return lerp(first_val, second_val, factor)
 
 func died():
 	position = spawn_pos
