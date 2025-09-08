@@ -5,7 +5,8 @@ const JUMP_VELOCITY : float = -40.0
 const FRICTION : Vector2 = Vector2(1.2,1.0)
 const UP_GRAVITY : Vector2 = Vector2(0,900)
 const DOWN_GRAVITY : Vector2 = Vector2(0,1250)
-const MAX_JUMP_FRAMES : int = 200
+const MAX_JUMP_TIME : float = 10.0
+const JUMP_TIME_MULTIPLIER : float = 50.0
 const DASH_COOLDOWN : int = 24
 
 const DASH_ARRAY : Array[float] = [
@@ -22,6 +23,8 @@ const DASH_ARRAY : Array[float] = [
 
 const JUMP_ARRAY : Array[float] = [
 	-10,
+	-10,
+	-20,
 	-30,
 	-40,
 	-40,
@@ -48,7 +51,7 @@ var dashing_counter : int = -1
 var direction : int = 1
 var accumulated_velocity : Vector2 = Vector2.ZERO
 var jumping : bool = false
-var jump_frames : int = 0
+var jump_time : float = 0
 
 
 @onready var spawn_pos : Vector2 = get_node("../spawn").position
@@ -76,18 +79,20 @@ func _physics_process(delta: float) -> void:
 			accumulated_velocity += UP_GRAVITY * delta
 	
 	if Input.is_action_just_pressed("JUMP") and is_on_floor():
+		jump_time = 0
 		jumping = true
-		jump_frames = 0
 	
-	if not Input.is_action_pressed("JUMP"):
+	if Input.is_action_pressed("JUMP"):
+		jump_time += delta
+	else:
 		jumping = false
 	
-	if jumping and jump_frames < MAX_JUMP_FRAMES:
-		var idx : int = jump_frames
+	if jumping and jump_time < MAX_JUMP_TIME:
+		var idx : float = jump_time * JUMP_TIME_MULTIPLIER
 		if idx > JUMP_ARRAY.size()-1:
 			idx = JUMP_ARRAY.size()-1
-		accumulated_velocity.y += JUMP_ARRAY[idx]
-		jump_frames += 1
+		
+		accumulated_velocity.y += getValue(idx, JUMP_ARRAY)
 	elif jumping:
 		jumping = false
 	
@@ -133,6 +138,9 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func getValue(fac:float, arr:Array[float]) -> float:
+	if int(fac)+1 > arr.size()-1:
+		return 0
+	
 	var first_val : float = arr[int(fac)]
 	var second_val : float = arr[int(fac)+1]
 	var factor : float = fac - int(fac)
@@ -140,5 +148,6 @@ func getValue(fac:float, arr:Array[float]) -> float:
 	return lerp(first_val, second_val, factor)
 
 func died():
+	accumulated_velocity = Vector2.ZERO
 	position = spawn_pos
 	return true
