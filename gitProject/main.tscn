@@ -120,6 +120,7 @@ shape = SubResource("RectangleShape2D_lquwl")
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_82xsv")
 animation = &"Idle"
+frame_progress = 0.0732172
 speed_scale = 2.0
 
 [node name="characterArea" type="Area2D" parent="character" groups=["character"]]
